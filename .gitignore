@@ -42,3 +42,5 @@ lerna-debug.log*
 infrastructure/terraform/.auto.tfvars
 infrastructure/terraform/.terraform.lock.hcl
 infrastructure/terraform/.terraform
+
+deploy.sh
