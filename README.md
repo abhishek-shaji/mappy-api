@@ -1,5 +1,5 @@
 # Mappy API
-[Nest.js](https://github.com/nestjs/nest) Backend for [Mappy.Earth](https://apps.apple.com/us/app/mappy-earth/id1590029147) App
+[Nest.js](https://github.com/nestjs/nest) Backend for [Mappy.Earth](https://mappy.earth/) App. Mobile app available on [Google Play](https://play.google.com/store/apps/details?id=com.mappy.earth&hl=en&gl=US) and [App Store](https://apps.apple.com/ma/app/mappy-earth/id1590029147) 
 
 ## Installation
 
