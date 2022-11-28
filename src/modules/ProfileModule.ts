@@ -10,13 +10,13 @@ import { Profile, ProfileSchema } from '../models/Profile';
 import { ProfileStatistics, ProfileStatisticsSchema } from '../models/ProfileStatistics';
 import { ProfileStatisticsService } from '../services/ProfileStatisticsService';
 import { UserModule } from './UserModule';
-import { Exchanges } from '../enum/Exchanges';
 import { ProfileHandler } from '../event-handlers/ProfileHandler';
 import { HaversineService } from '../services/HaversineService';
 import { MapboxService } from '../services/MapboxService';
 import { Region, RegionSchema } from '../models/Region';
 import { Country, CountrySchema } from '../models/Country';
 import { RegionAndCountryService } from '../services/RegionAndCountryService';
+import { EXCHANGES } from '../constants/exchanges';
 
 @Module({
   imports: [
@@ -32,7 +32,7 @@ import { RegionAndCountryService } from '../services/RegionAndCountryService';
     RabbitMQModule.forRoot(RabbitMQModule, {
       exchanges: [
         {
-          name: Exchanges.Profile,
+          name: EXCHANGES.PROFILE,
           type: 'topic',
         },
       ],

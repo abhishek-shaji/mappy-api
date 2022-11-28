@@ -8,11 +8,11 @@ import { GeoLocationService } from './GeoLocationService';
 import { MapboxService } from './MapboxService';
 import { HaversineService } from './HaversineService';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
-import { Exchanges } from '../enum/Exchanges';
-import { RoutingKeys } from '../enum/RoutingKeys';
 import { formatGeoTrackingSession } from '../formatters/formatGeoTrackingSession';
 import { differenceInCalendarDays } from 'date-fns';
 import { AbstractCRUDService } from './AbstractCRUDService';
+import { EXCHANGES } from '../constants/exchanges';
+import { ROUTING_KEYS } from '../constants/routingKeys';
 
 @Injectable()
 export class GeoTrackingSessionService extends AbstractCRUDService {
@@ -112,8 +112,8 @@ export class GeoTrackingSessionService extends AbstractCRUDService {
     const distanceTravelled = await this.haversineService.calculateDistanceTravelled(locationHistory);
 
     await this.amqpConnection.publish(
-      Exchanges.GeoTracking,
-      RoutingKeys.GeoTrackingSessionTerminated,
+      EXCHANGES.GEO_TRACKING,
+      ROUTING_KEYS.GEO_TRACKING_SESSION_TERMINATED,
       {
         trackingSessionId: updatedSession._id,
         statistics: { distanceTravelled },

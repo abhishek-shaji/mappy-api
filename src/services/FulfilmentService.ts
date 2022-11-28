@@ -4,13 +4,13 @@ import { Model } from 'mongoose';
 
 import { Fulfilment, FulfilmentDocument } from '../models/Fulfilment';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
-import { Exchanges } from '../enum/Exchanges';
-import { RoutingKeys } from '../enum/RoutingKeys';
 import { ProfileDocument } from '../models/Profile';
 import { FulfilmentPropertyType } from '../enum/FulfilmentPropertyType';
 import { FulfilmentOperatorType } from '../enum/FulfilmentOperator';
 import { AbstractCRUDService } from './AbstractCRUDService';
 import { formatFulfilment } from '../formatters/formatFulfilment';
+import { EXCHANGES } from '../constants/exchanges';
+import { ROUTING_KEYS } from '../constants/routingKeys';
 
 @Injectable()
 export class FulfilmentService extends AbstractCRUDService {
@@ -57,7 +57,7 @@ export class FulfilmentService extends AbstractCRUDService {
   };
 
   publishHandoutRewardEvent = async (profileId: string, rewardId: any) =>
-    this.amqpConnection.publish(Exchanges.Profile, RoutingKeys.HandoutReward, {
+    this.amqpConnection.publish(EXCHANGES.PROFILE, ROUTING_KEYS.HANDOUT_REWARD, {
       profileId,
       rewardId,
     });

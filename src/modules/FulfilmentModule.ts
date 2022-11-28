@@ -7,10 +7,10 @@ import { Fulfilment, FulfilmentSchema } from '../models/Fulfilment';
 import { ProfileModule } from './ProfileModule';
 import { RequestService } from '../services/RequestService';
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
-import { Exchanges } from '../enum/Exchanges';
 import { FulfilmentController } from '../controllers/FulfilmentController';
 import { ConfigModule } from '@nestjs/config';
 import { FulfilmentHandler } from '../event-handlers/FulfilmentHandler';
+import { EXCHANGES } from '../constants/exchanges';
 
 @Module({
   imports: [
@@ -20,7 +20,7 @@ import { FulfilmentHandler } from '../event-handlers/FulfilmentHandler';
     RabbitMQModule.forRoot(RabbitMQModule, {
       exchanges: [
         {
-          name: Exchanges.Profile,
+          name: EXCHANGES.PROFILE,
           type: 'topic',
         },
       ],

@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { AmqpConnection, RabbitRPC, RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 import { ConsumeMessage } from 'amqplib';
 
-import { Exchanges } from '../enum/Exchanges';
 import { ProfileService } from '../services/ProfileService';
 import { UserService } from '../services/UserService';
-import { Queues } from '../enum/Queues';
-import { RoutingKeys } from '../enum/RoutingKeys';
 import { ProfileStatisticsService } from '../services/ProfileStatisticsService';
+import { EXCHANGES } from '../constants/exchanges';
+import { QUEUES } from '../constants/queues';
+import { ROUTING_KEYS } from '../constants/routingKeys';
 
 @Injectable()
 class ProfileHandler {
@@ -19,9 +19,9 @@ class ProfileHandler {
   ) {}
 
   @RabbitRPC({
-    exchange: Exchanges.Profile,
-    routingKey: RoutingKeys.GetProfileData,
-    queue: Queues.GetProfileData,
+    exchange: EXCHANGES.PROFILE,
+    routingKey: ROUTING_KEYS.GET_PROFILE_DATA,
+    queue: QUEUES.GET_PROFILE_DATA,
   })
   public async getProfile(msg: any) {
     const { accountId } = msg;
@@ -31,9 +31,9 @@ class ProfileHandler {
   }
 
   @RabbitSubscribe({
-    exchange: Exchanges.Profile,
-    routingKey: RoutingKeys.HandoutReward,
-    queue: Queues.ProfileHandoutReward,
+    exchange: EXCHANGES.PROFILE,
+    routingKey: ROUTING_KEYS.HANDOUT_REWARD,
+    queue: QUEUES.PROFILE_HANDOUT_REWARD,
   })
   async processProfileStatsEvent(msg: any = {}) {
     const { profileId, rewardId } = msg;
@@ -48,9 +48,9 @@ class ProfileHandler {
   }
 
   @RabbitSubscribe({
-    exchange: Exchanges.GeoTracking,
-    routingKey: RoutingKeys.GeoTrackingSessionTerminated,
-    queue: Queues.UpdateProfileStatistics,
+    exchange: EXCHANGES.GEO_TRACKING,
+    routingKey: ROUTING_KEYS.GEO_TRACKING_SESSION_TERMINATED,
+    queue: QUEUES.UPDATE_PROFILE_STATISTICS,
   })
   async updateProfileStatistics(msg: any = {}, amqpMsg: ConsumeMessage) {
     const accountId = amqpMsg.properties.headers['x-account-id'];
@@ -71,8 +71,8 @@ class ProfileHandler {
       console.info(`Profile #${profileStatistics._id} updated`, profileStatistics, accountId);
 
       await this.amqpConnection.publish(
-        Exchanges.Profile,
-        RoutingKeys.ProfileDataUpdated,
+        EXCHANGES.PROFILE,
+        ROUTING_KEYS.PROFILE_DATA_UPDATED,
         {},
         { headers: { 'x-account-id': accountId } },
       );

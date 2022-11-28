@@ -6,8 +6,6 @@ import { differenceInSeconds } from 'date-fns';
 import { ProfileStatistics, ProfileStatisticsDocument } from '../models/ProfileStatistics';
 import { UserService } from './UserService';
 import { AbstractCRUDService } from './AbstractCRUDService';
-import { Exchanges } from '../enum/Exchanges';
-import { RoutingKeys } from '../enum/RoutingKeys';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { HaversineService } from './HaversineService';
 import { GeoLocationDocument } from '../models/GeoLocation';
@@ -19,6 +17,8 @@ import { formatProfileStatistics } from '../formatters/formatProfileStatistics';
 import { Region } from '../models/Region';
 import { Country } from '../models/Country';
 import { RegionAndCountryService } from './RegionAndCountryService';
+import { EXCHANGES } from '../constants/exchanges';
+import { ROUTING_KEYS } from '../constants/routingKeys';
 
 @Injectable()
 export class ProfileStatisticsService extends AbstractCRUDService {
@@ -73,8 +73,8 @@ export class ProfileStatisticsService extends AbstractCRUDService {
 
   private isTrackingSessionStreak = async (accountId: string): Promise<boolean> => {
     return await this.amqpConnection.request<any>({
-      exchange: Exchanges.GeoTracking,
-      routingKey: RoutingKeys.IsTrackingSessionStreak,
+      exchange: EXCHANGES.GEO_TRACKING,
+      routingKey: ROUTING_KEYS.IS_TRACKING_SESSION_STREAK,
       payload: {
         accountId,
       },
@@ -83,8 +83,8 @@ export class ProfileStatisticsService extends AbstractCRUDService {
 
   private fetchGeoTracking = async (trackingSessionId: string) => {
     return await this.amqpConnection.request<any>({
-      exchange: Exchanges.GeoTracking,
-      routingKey: RoutingKeys.GetGeoTrackingSession,
+      exchange: EXCHANGES.GEO_TRACKING,
+      routingKey: ROUTING_KEYS.GET_GEO_TRACKING_SESSION,
       payload: {
         trackingSessionId,
       },

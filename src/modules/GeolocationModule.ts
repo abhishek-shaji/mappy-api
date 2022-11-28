@@ -11,12 +11,12 @@ import { GeoLocationController } from '../controllers/GeoLocationController';
 import { GeoLocationService } from '../services/GeoLocationService';
 import { MapboxService } from '../services/MapboxService';
 import { HaversineService } from '../services/HaversineService';
-import { RoutingKeys } from '../enum/RoutingKeys';
 import { GeoTrackingSessionHandler } from '../event-handlers/GeoTrackingSessionHandler';
 import { GeoLocationPoint } from '../models/GeoLocationPoint';
 import { NoteController } from '../controllers/NoteController';
 import { NoteService } from '../services/NoteService';
 import { Note, NoteSchema } from '../models/Note';
+import { ROUTING_KEYS } from '../constants/routingKeys';
 
 @Module({
   imports: [
@@ -30,7 +30,7 @@ import { Note, NoteSchema } from '../models/Note';
     RabbitMQModule.forRoot(RabbitMQModule, {
       exchanges: [
         {
-          name: RoutingKeys.GeoTrackingSessionTerminated,
+          name: ROUTING_KEYS.GEO_TRACKING_SESSION_TERMINATED,
           type: 'topic',
         },
       ],
